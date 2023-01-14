@@ -12,8 +12,8 @@ class RBM:
         self.hidden_bias = np.random.rand(1, n_output_neurons) #hidden layer bias
     
     def __sample(self, probability_distribution):
-        #Hacemos 1 las probabilidades que superen a su correspondiente en una distribucion de la
-        #misma forma, por ejemplo una distribucion uniforme
+        #Hacemos 1 las probabilidades que superen a su correspondiente en una distribucion de la isma forma, por
+        #ejemplo una distribucion uniforme. De esta forma decidimos cuales neuronas 'encender' o 'apagar'
         return probability_distribution > np.random.uniform(size=probability_distribution.shape)
     
     def __sigmoid(self, x):
