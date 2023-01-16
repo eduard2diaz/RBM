@@ -13,7 +13,8 @@ class RBM:
     
     def __sample(self, probability_distribution):
         #Hacemos 1 las probabilidades que superen a su correspondiente en una distribucion de la isma forma, por
-        #ejemplo una distribucion uniforme. De esta forma decidimos cuales neuronas 'encender' o 'apagar'
+        #ejemplo una distribucion uniforme. De esta forma decidimos cuales neuronas 'encender' o 'apagar',
+        #ademas de que resulta muy util para prevenir el sobreajuste
         return probability_distribution > np.random.uniform(size=probability_distribution.shape)
     
     def __sigmoid(self, x):
@@ -42,6 +43,7 @@ class RBM:
         de esta reconstruccion
         """
         encode_probability, encode_sample = self.__encode(X)
+        #There is developers that decode using encode_sample, but I think that encode_sample is better
         decode_probability, decode_sample = self.__decode(encode_sample)
         return decode_probability
         
