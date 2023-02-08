@@ -12,7 +12,7 @@ class RBM:
         self.hidden_bias = np.random.rand(1, n_output_neurons) #hidden layer bias
     
     def __sample(self, probability_distribution):
-        #Hacemos 1 las probabilidades que superen a su correspondiente en una distribucion de la isma forma, por
+        #Hacemos 1 las probabilidades que superen a su correspondiente en una distribucion de la misma forma, por
         #ejemplo una distribucion uniforme. De esta forma decidimos cuales neuronas 'encender' o 'apagar',
         #ademas de que resulta muy util para prevenir el sobreajuste
         return probability_distribution > np.random.uniform(size=probability_distribution.shape)
@@ -43,7 +43,7 @@ class RBM:
         de esta reconstruccion
         """
         encode_probability, encode_sample = self.__encode(X)
-        #There is developers that decode using encode_sample, but I think that encode_sample is better
+        #There is developers that decode using encode_probability, but I think that encode_sample is better
         decode_probability, decode_sample = self.__decode(encode_sample)
         return decode_probability
         
@@ -57,8 +57,10 @@ class RBM:
             h1_prob, h1_state = self.__encode(v1_state)
             
             ## Updating weights
+            #dEnergy/dW = v_i * h_i,
+            #so, dW = dEnergy_original/dW - dEnergy_reconstruction/dW
             delta_W = X.T.dot(h0_prob) - v1_state.T.dot(h1_prob)
-            self.W+= lr * delta_W
+            self.W+= (lr * delta_W)
             self.hidden_bias+= lr *  (h0_prob.sum(axis = 0) - h1_prob.sum(axis = 0)) 
             self.visible_bias+= lr * (X.sum(axis=0) - v1_state.sum(axis=0))
             
